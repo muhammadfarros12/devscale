@@ -12,3 +12,18 @@ generator client {
 datasource db {
   provider = "sqlite"
 }
+
+model Event {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  location    String
+  datetime    String
+}
+
+model participant {
+  id      String @id @default(cuid())
+  name    String
+  email   String
+  eventId Int
+}
