@@ -1,8 +1,12 @@
 import { Hono } from "hono";
+import { prisma } from "../utils/prisma.js";
 
-export const eventRoute = new Hono().get("/", (c) => {
-    return c.json({ event: [] })
-})
+
+export const eventsRoute = new Hono()
+    .get("/", async (c) => {
+        const events = await prisma.event.findMany()
+        return c.json({ events })
+    })
     .get("/:id", (c) => {
         const id = c.req.param('id')
         return c.json({ event: id })

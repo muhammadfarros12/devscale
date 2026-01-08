@@ -1,10 +1,18 @@
 {
-  "name": "my-app",
+  "name": "assignment-week3",
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "esbuild",
+      "@prisma/engines",
+      "prisma"
+    ]
   },
   "dependencies": {
     "@hono/node-server": "^1.19.6",
