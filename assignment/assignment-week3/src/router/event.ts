@@ -7,18 +7,55 @@ export const eventsRoute = new Hono()
         const events = await prisma.event.findMany()
         return c.json({ events })
     })
-    .get("/:id", (c) => {
+    .get("/:id", async (c) => {
         const id = c.req.param('id')
-        return c.json({ event: id })
+        const event = await prisma.event.findFirst({
+            where: {
+                id : id
+            }
+        })
+        return c.json({ event: event })
     })
-    .post("/", (c) => {
-        return c.json({ event: 'created' })
+    .post("/", async (c) => {
+        const body = await c.req.json()
+
+        const newEvent = await prisma.event.create({
+            data: {
+                name: body.name,
+                description: body.description,
+                datetime: body.datetime,
+                location: body.location
+            }
+        })
+
+        return c.json({ event: newEvent })
     })
-    .patch(':/id', (c) => {
+    .patch('/:id', async (c) => {
         const id = c.req.param("id")
-        return c.json({ event: id })
+        const body = await c.req.json()
+
+        const updatedEvent = await prisma.event.update({
+            where: {
+                id: id
+            },
+            data: {
+                name: body.name,
+                description: body.description,
+                datetime: body.datetime,
+                location: body.location
+            }
+        })
+
+        return c.json({ event: updatedEvent })
     })
-    .delete('/:id', (c) => {
+    .delete('/:id', async (c) => {
         const id = c.req.param("id")
-        return c.json({ event: id })
+
+        await prisma.event.delete({
+            where: {
+                id: id
+            }
+        })
+
+        return c.json({ message: "Event deleted successfully" })
     })

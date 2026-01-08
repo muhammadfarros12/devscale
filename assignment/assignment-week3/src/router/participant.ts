@@ -11,7 +11,7 @@ export const participantsRoute = new Hono()
     .post("/", (c) => {
         return c.json({ participant: 'created' })
     })
-    .patch(":/id", (c) => {
+    .patch("/:id", (c) => {
         const id = c.req.param("id")
         return c.json({ participant: id })
     })

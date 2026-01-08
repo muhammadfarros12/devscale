@@ -6,7 +6,7 @@ import { participantsRoute } from './router/participant.js'
 const app = new Hono()
 
 app.route("/events", eventsRoute) // endpoint
-// app.route("/participants", participantsRoute)
+app.route("/participants", participantsRoute)
 
 app.get("/", (c) => c.text("test"))
 
