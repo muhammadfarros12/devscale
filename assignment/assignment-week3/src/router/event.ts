@@ -1,10 +1,17 @@
 import { Hono } from "hono";
 import { prisma } from "../utils/prisma.js";
+import { zValidator } from "@hono/zod-validator";
+import { createEventValidation } from "../validation/events-validation.js";
 
 
 export const eventsRoute = new Hono()
     .get("/", async (c) => {
-        const events = await prisma.event.findMany()
+        const events = await prisma.event.findMany({
+            include: {
+                participants: true
+            }
+        })
+
         return c.json({ events })
     })
     .get("/:id", async (c) => {
@@ -12,12 +19,16 @@ export const eventsRoute = new Hono()
         const event = await prisma.event.findFirst({
             where: {
                 id : id
+            },
+            include: {
+                participants: true
             }
         })
         return c.json({ event: event })
     })
-    .post("/", async (c) => {
-        const body = await c.req.json()
+    .post("/", zValidator('json', createEventValidation), async (c) => {
+        // const body = await c.req.json()
+        const body = c.req.valid("json")
 
         const newEvent = await prisma.event.create({
             data: {

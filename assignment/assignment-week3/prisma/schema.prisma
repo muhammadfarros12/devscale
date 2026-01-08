@@ -14,16 +14,18 @@ datasource db {
 }
 
 model Event {
-  id          String @id @default(cuid())
-  name        String
-  description String
-  location    String
-  datetime    String
+  id           String        @id @default(cuid())
+  name         String
+  description  String
+  location     String
+  datetime     String
+  participants participant[]
 }
 
 model participant {
   id      String @id @default(cuid())
   name    String
   email   String
-  eventId Int
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id])
 }
