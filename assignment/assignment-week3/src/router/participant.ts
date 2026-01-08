@@ -1,16 +1,24 @@
 import { Hono } from "hono";
 import { prisma } from "../utils/prisma.js";
+import { zValidator } from "@hono/zod-validator";
+import { createParticipantValidation } from "../validation/participants-validation.js";
 
 export const participantsRoute = new Hono()
-    .get("/", (c) => {
-        return c.json({ participants: [] })
+    .get("/", async (c) => {
+        const participants = await prisma.participant.findMany();
+        return c.json({ participants: participants })
     })
-    .get("/:id", (c) => {
+    .get("/:id", async (c) => {
         const id = c.req.param('id')
-        return c.json({ participant: id })
+        const participant = await prisma.participant.findFirst({
+            where: {
+                id: id
+            }
+        })
+        return c.json({ participant: participant })
     })
-    .post("/", async (c) => {
-        const body = await c.req.json()
+    .post("/", zValidator('json', createParticipantValidation), async (c) => {
+        const body = c.req.valid('json')
 
         const newParticipant = await prisma.participant.create({
             data: {
@@ -21,11 +29,30 @@ export const participantsRoute = new Hono()
         })
         return c.json({ participant: newParticipant })
     })
-    .patch("/:id", (c) => {
+    .patch("/:id", async (c) => {
         const id = c.req.param("id")
-        return c.json({ participant: id })
+        const body = await c.req.json()
+
+        const updatedParticipant = await prisma.participant.update({
+            where: {
+                id: id
+            }, 
+            data: {
+                name: body.name,
+                email: body.email
+            }
+        })
+
+        return c.json({ participant: updatedParticipant })
     })
-    .delete("/:id", (c) => {
+    .delete("/:id", async (c) => {
         const id = c.req.param("id")
-        return c.json({ participant: id })
+
+        await prisma.event.delete({
+            where: {
+                id: id
+            }
+        })
+
+        return c.json({ message: "Participant deleted successfully" })
     })
