@@ -7,23 +7,25 @@ export const Route = createFileRoute('/')({
 
 function App() {
   // setState
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: ""
+  })
   return (
     <div className='flex justify-center items-center h-screen bg-amber-50'>
       <div className='w-[300px]'>
         <input
-          onChange={(event) => { setUsername(event.target.value) }}
+          onChange={(event) => { setLoginData({ ...loginData, username: event.target.value }) }}
           className='p-2 rounded-lg border'
           type="text" />
 
         <input
-          onChange={(event) => { setPassword(event.target.value) }}
+          onChange={(event) => { setLoginData({ ...loginData, password: event.target.value }) }}
           className='p-2 rounded-lg border'
           type="password" />
-          
-        <div>Username: {username}</div>
-        <div>Password: {password}</div>
+
+        <div>Username: {loginData.username}</div>
+        <div>Password: {loginData.password}</div>
       </div>
     </div>
   )
