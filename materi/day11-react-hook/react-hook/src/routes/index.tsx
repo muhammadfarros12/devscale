@@ -1,39 +1,30 @@
 import { createFileRoute } from '@tanstack/react-router'
-import logo from '../logo.svg'
+import { useState } from 'react'
 
 export const Route = createFileRoute('/')({
   component: App,
 })
 
 function App() {
+  // setState
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
   return (
-    <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
-        <img
-          src={logo}
-          className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
-          alt="logo"
-        />
-        <p>
-          Edit <code>src/routes/index.tsx</code> and save to reload.
-        </p>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://tanstack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn TanStack
-        </a>
-      </header>
+    <div className='flex justify-center items-center h-screen bg-amber-50'>
+      <div className='w-[300px]'>
+        <input
+          onChange={(event) => { setUsername(event.target.value) }}
+          className='p-2 rounded-lg border'
+          type="text" />
+
+        <input
+          onChange={(event) => { setPassword(event.target.value) }}
+          className='p-2 rounded-lg border'
+          type="password" />
+          
+        <div>Username: {username}</div>
+        <div>Password: {password}</div>
+      </div>
     </div>
   )
 }
