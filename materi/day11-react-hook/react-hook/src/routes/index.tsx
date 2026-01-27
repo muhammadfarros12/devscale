@@ -1,36 +1,36 @@
-import { userAtom } from '@/atoms/userAtoms'
-import { Dashboard } from '@/components/dashboard'
-import { Header } from '@/components/header'
-import { SideBar } from '@/components/sidebar'
+
+import { productAtoms } from '@/atoms/productAtom'
+import { Cart } from '@/components/cart'
+import { ProductList } from '@/components/productList'
+import { TotalProducts } from '@/components/totalProducts'
 import { createFileRoute } from '@tanstack/react-router'
 import { useHydrateAtoms } from 'jotai/utils'
 
 export const Route = createFileRoute('/')({
   component: App,
   loader: async () => {
-    // ambil data api
+    const res = await fetch('https://fakestoreapi.com/products')
 
-    return { username: 'JohnDoe' }
+    if (!res.ok) {
+      throw new Error('Gagal mengakses product')
+    }
+
+    const data = await res.json()
+    return data
   }
 })
 
 function App() {
-  const data = Route.useLoaderData()
-  // const setUserData = useSetAtom(userAtom)
+  const products = Route.useLoaderData()
+  useHydrateAtoms([[productAtoms, products]])
 
-  // useEffect(() => {
-  //   setUserData({username: data.username})
-  // }, [data, setUserData])
-
-  // dijalankan dalam keadaan posisi hydration (dijalankan sebelum tampilan ditampilkan)
-  useHydrateAtoms([[userAtom, { username: data.username }]])
 
   return (
-    <main className='h-screen'>
-      <Header />
-      <div className='flex h-full'>
-        <SideBar />
-        <Dashboard />
+    <main className='grid grid-cols-2 gap-2'>
+      <ProductList />
+      <div>
+        <Cart />
+        <TotalProducts />
       </div>
     </main>
   )
