@@ -13,3 +13,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@layer base {
+  input{
+    @apply border border-zinc-200 shadow-zinc-100 p-2 w-full rounded-lg;
+  }
+
+  button{
+    @apply bg-indigo-600 text-white p-2 rounded-lg w-full font-medium
+  }
+
+  h3{
+    @apply text-2xl font-semibold tracking-tight
+  }
+
+  p {
+    @apply text-zinc-500 text-sm
+  }
+}
