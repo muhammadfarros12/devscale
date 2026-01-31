@@ -20,7 +20,7 @@ code {
   }
 
   button{
-    @apply bg-indigo-600 text-white p-2 rounded-lg w-full font-medium
+    @apply disabled:opacity-50 disabled:cursor-not-allowed bg-indigo-600 text-white p-2 rounded-lg w-full font-medium
   }
 
   h3{
