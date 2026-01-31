@@ -1,26 +1,34 @@
 import { MockTodos } from "@/modules/mockTodos/components/mockTodos";
 import { MockTodosFeatured } from "@/modules/mockTodos/components/mockTodosFeatured";
+import { Profile } from "@/modules/profile/components/profile";
+import { useProfile } from "@/modules/profile/hooks/useProfile";
 import { createFileRoute } from "@tanstack/react-router";
+import { Loader } from "lucide-react";
 
 export const Route = createFileRoute("/")({
 	component: App,
-	// loader: async () => {
-	// 	const res = await fetch("http://localhost:8000/mock-todos");
-	// 	const data = await res.json();
-	// 	return data;
-	// },
 });
 
 function App() {
-	// const data = Route.useLoaderData()
-	// console.log(data)
+	const { data, isLoading } = useProfile();
+
 	return (
 		<div>
-			<div>Todos: </div>
-      <div className="grid grid-cols-2">
-			<MockTodos />
-      <MockTodosFeatured />
-      </div>
+			<header className="flex justify-between p-4 bg-zinc-50 border-b">
+				<div>Todos</div>
+				<Profile />
+			</header>
+			{/* delay menyebabkan error karena masih undefined */}
+			{/* <h3>Todos of { data.data.email }:</h3> */}
+			{isLoading ? (
+				<Loader className="animate-spin w-4 h-4" />
+			) : (
+				<>Todos of {data.data.email}</>
+			)}
+			<div className="grid grid-cols-2">
+				<MockTodos />
+				<MockTodosFeatured />
+			</div>
 		</div>
 	);
 }
