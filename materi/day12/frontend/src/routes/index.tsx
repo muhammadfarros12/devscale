@@ -1,4 +1,5 @@
 import { MockTodos } from "@/modules/mockTodos/components/mockTodos";
+import { MockTodosFeatured } from "@/modules/mockTodos/components/mockTodosFeatured";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -16,7 +17,10 @@ function App() {
 	return (
 		<div>
 			<div>Todos: </div>
+      <div className="grid grid-cols-2">
 			<MockTodos />
+      <MockTodosFeatured />
+      </div>
 		</div>
 	);
 }

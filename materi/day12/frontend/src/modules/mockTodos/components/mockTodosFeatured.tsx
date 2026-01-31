@@ -1,6 +1,6 @@
 import useMockTodos from "../hooks/useMockTodos";
 
-export const MockTodos = () => {
+export const MockTodosFeatured = () => {
 	const mockTodosQuery = useMockTodos()
 
 	// console.log(mockTodosQuery.data)
@@ -13,7 +13,7 @@ export const MockTodos = () => {
 	return (
 		<div>
 			<div>
-				{mockTodosQuery.data?.map((todo) => {
+				{mockTodosQuery.data?.slice(0, 3).map((todo) => {
 					return (
 						<div key={todo.id}>
 							<div>{todo.title}</div>
