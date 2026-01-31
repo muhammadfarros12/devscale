@@ -1,7 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useRegister } from "@/modules/auth/hooks/useRegister";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/register")({
 	component: RouteComponent,
@@ -11,37 +10,7 @@ function RouteComponent() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
-	const registerMutation = useMutation({
-		mutationKey: [],
-		mutationFn: async () => {
-			const res = await fetch("http://localhost:8000/auth/register", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email, password }),
-			});
-			const data = await res.json();
-			return data;
-		},
-        onSettled: () => {
-            toast.success('registering success, please login')
-        }
-	});
-
-	// async function handleRegister() {
-	// 	console.log(email, password);
-	//     // mutation: membuat/mengupdate data
-	//     const res = await fetch("http://localhost:8000/auth/register", {
-	//         method: 'POST',
-	//         headers: {
-	//             'Content-Type': "application/json"
-	//         },
-	//         body: JSON.stringify({ email, password })
-	//     })
-	//     const data = await res.json()
-	//     console.log(data)
-	// }
+	const registerMutation = useRegister();
 
 	return (
 		<div className="h-screen flex justify-center items-center">
@@ -67,7 +36,7 @@ function RouteComponent() {
 					<button
 						disabled={registerMutation.isPending}
 						type="button"
-						onClick={() => registerMutation.mutate()}
+						onClick={() => registerMutation.mutate({ email, password })}
 					>
 						{registerMutation.isPending ? "Registering..." : "Register"}
 					</button>
