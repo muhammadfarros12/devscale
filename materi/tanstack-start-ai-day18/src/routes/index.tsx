@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { createNote } from "#/modules/todos/server-fn";
 import { useState } from "react";
+import { createNote } from "#/modules/todos/server-fn";
 
 export const Route = createFileRoute("/")({ component: App });
 
