@@ -2,7 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
-import appCss from "../styles.css?url";
+import "../styles.css";
 
 export const Route = createRootRoute({
 	head: () => ({
@@ -18,12 +18,6 @@ export const Route = createRootRoute({
 				title: "TanStack Start Starter",
 			},
 		],
-		links: [
-			{
-				rel: "stylesheet",
-				href: appCss,
-			},
-		],
 	}),
 	shellComponent: RootDocument,
 });
@@ -31,7 +25,8 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head></head>
+			<head>
+			</head>
 			<body>
 				{children}
 				<TanStackDevtools
