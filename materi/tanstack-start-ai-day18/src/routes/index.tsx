@@ -3,6 +3,7 @@ import { useState } from "react";
 import { createStory } from "#/modules/stories/server-fn";
 import { Button } from "#/components/ui/button";
 import { Textarea } from "#/components/ui/textarea";
+import ReactMarkdown from "react-markdown";
 
 export const Route = createFileRoute("/")({ component: App });
 
@@ -32,10 +33,10 @@ function App() {
 			});
 			setResult(res);
 		} catch (error) {
-			console.error("Error:", error); 
+			console.error("Error:", error);
 			setResult(`Error: ${error}`);
 		} finally {
-			setIsLoading(false); 
+			setIsLoading(false);
 		}
 	}
 
@@ -54,7 +55,15 @@ function App() {
 					Create
 				</Button>
 			</section>
-			<section>{isLoading ? "generating..." : result}</section>
+			<section>
+				{isLoading ? (
+					"generating..."
+				) : (
+					<div className="prose">
+						<ReactMarkdown>{result}</ReactMarkdown>
+					</div>
+				)}{" "}
+			</section>
 		</div>
 	);
 }
