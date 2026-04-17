@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { openai } from "#/utils/openai";
+import { prisma } from "#/utils/prisma";
 
 const SYSTEM_PROMPT = `
 
@@ -41,5 +42,29 @@ export const createStory = createServerFn({ method: "POST" })
 		});
 
 		const result = res.choices[0].message.content;
+
+		if (result) {
+			await prisma.story.create({
+				data: {
+					topic: data.topic,
+					content: result,
+				},
+			});
+		}
+
 		return result;
+	});
+
+export const getStories = createServerFn().handler(async () => {
+	return prisma.story.findMany();
+});
+
+export const getStoryById = createServerFn()
+	.inputValidator((data: { id: number }) => data)
+	.handler(async ({ data }) => {
+		return prisma.story.findUnique({
+			where: {
+				id: data.id,
+			},
+		});
 	});
