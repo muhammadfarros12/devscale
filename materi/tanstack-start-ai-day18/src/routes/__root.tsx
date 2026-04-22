@@ -25,8 +25,7 @@ export const Route = createRootRoute({
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head>
-			</head>
+			<head></head>
 			<body>
 				{children}
 				<TanStackDevtools

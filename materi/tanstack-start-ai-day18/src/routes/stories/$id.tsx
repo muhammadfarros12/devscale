@@ -1,6 +1,6 @@
-import { getStoryById } from "#/modules/stories/server-fn";
 import { createFileRoute } from "@tanstack/react-router";
 import ReactMarkdown from "react-markdown";
+import { getStoryById } from "#/modules/stories/server-fn";
 
 export const Route = createFileRoute("/stories/$id")({
 	component: RouteComponent,

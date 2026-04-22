@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { createStory, getStories } from "#/modules/stories/server-fn";
+import ReactMarkdown from "react-markdown";
 import { Button } from "#/components/ui/button";
 import { Textarea } from "#/components/ui/textarea";
-import ReactMarkdown from "react-markdown";
+import { createStory, getStories } from "#/modules/stories/server-fn";
 
 export const Route = createFileRoute("/")({
 	component: App,
@@ -11,8 +11,7 @@ export const Route = createFileRoute("/")({
 });
 
 function App() {
-
-	const stories = Route.useLoaderData()
+	const stories = Route.useLoaderData();
 
 	const [topic, setTopic] = useState("");
 	const [result, setResult] = useState<string | null>("");
@@ -70,20 +69,25 @@ function App() {
 					</div>
 				)}{" "}
 			</section>
-			
+
 			<section>
 				{stories.map((story) => {
 					return (
-						<Link key={story.id} params={{ id: String(story.id) }} to="/stories/$id">
+						<Link
+							key={story.id}
+							params={{ id: String(story.id) }}
+							to="/stories/$id"
+						>
 							<div>
 								<h3 className="font-medium tracking-tight">{story.topic}</h3>
-								<p className="text-sm text-zinc-500">{story.content.slice(0, 200)}...</p>
+								<p className="text-sm text-zinc-500">
+									{story.content.slice(0, 200)}...
+								</p>
 							</div>
 						</Link>
 					);
 				})}
 			</section>
-
 		</div>
 	);
 }
